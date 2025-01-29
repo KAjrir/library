@@ -1,12 +1,16 @@
  const inputButton = document.getElementById('inputform')
 
-const booklist = [];
+const booklist = JSON.parse(localStorage.getItem("library")) || [];
 
 function Book(name, author, pages){
     this.name = name
     this.author = author
     this.pages = pages
 };
+
+function saveBook(){
+    localStorage.setItem("library", JSON.stringify(booklist));
+}
 
 inputButton.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -26,11 +30,13 @@ function addBook(){
     const newBook = new Book(bookName, bookAuthor, Number(bookPages))
 
     booklist.push(newBook)
+    saveBook();
     updateList();
 }
 
 function removeBook(index){
     booklist.splice(index, 1);
+    saveBook();
     updateList();
 }
 
@@ -53,3 +59,7 @@ function updateList(){
         </div>`
     })
 }
+
+
+
+updateList()
